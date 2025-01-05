@@ -24,3 +24,12 @@
 
 ４．変更履歴
 2024/1/5　Ver.1　記載
+
+５．使用方法
+Ver.1
+・Fast APIの立ち上げ
+sbv2/Style-Bert-VITS2へ移動し、
+Python server_fastapi.py
+
+・プログラムの実施
+Python main.py

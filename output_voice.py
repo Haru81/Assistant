@@ -2,7 +2,6 @@
 import requests
 import io
 import soundfile
-import argparse
 import sounddevice as sd
 
 # Sbv2Adapterというクラスを定義します
@@ -48,14 +47,3 @@ class Sbv2Adapter:
         data, sample_rate = soundfile.read(audio_stream)
         return data, sample_rate
 
-def main(text: str):
-    adapter = Sbv2Adapter()
-    data, sample_rate = adapter.get_voice(text)
-    sd.play(data, sample_rate)
-    sd.wait()
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Text to Speech")
-    parser.add_argument("text", type=str, help="The text to be converted to speech")
-    args = parser.parse_args()
-    main(args.text)
