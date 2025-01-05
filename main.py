@@ -30,10 +30,11 @@ OUTPUT_FILENAME = "record.wav"
 # AIモデル
 genai.configure(api_key=config.GEMINI_API_KEY)
 model = genai.GenerativeModel("models/gemini-2.0-flash-exp")
-response = model.generate_content("こんにちは")
+response = model.generate_content("こんにちは、自己紹介してみて")
 print(response.text)
 
 # 音声出力
-sbv2 = output_voice.Sbv2Adapter()
-
-sbv2.get_voice(response.text)
+adapter = output_voice.Sbv2Adapter()
+data, sample_rate = adapter.get_voice(response.text)
+sd.play(data, sample_rate)
+sd.wait()
