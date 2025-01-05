@@ -2,6 +2,7 @@ import sounddevice as sd
 import wave
 import config
 import google.generativeai as genai
+import output_voice
 
 # 録音設定
 RATE = 44100
@@ -31,3 +32,8 @@ genai.configure(api_key=config.GEMINI_API_KEY)
 model = genai.GenerativeModel("models/gemini-2.0-flash-exp")
 response = model.generate_content("こんにちは")
 print(response.text)
+
+# 音声出力
+sbv2 = output_voice.Sbv2Adapter()
+
+sbv2.get_voice(response.text)
