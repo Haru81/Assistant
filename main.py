@@ -3,13 +3,34 @@ import sounddevice as sd
 import google.generativeai as genai
 import input_voice
 import output_voice
+import json
 
 is_first_interaction = True
 conversation_history = []
-max_history = 3
+max_history = 5
+WAV_PATH = r"media/record.wav"
+recognizer = input_voice.SoundRecognizer()
 
-def connect_ai(user_input: str) -> str:
-    global is_first_interaction
+def save_history_to_file():
+    with open("conversation_history.json", "w", encoding="utf-8") as file:
+        json.dump(conversation_history, file, ensure_ascii=False, indent=4)
+
+
+def load_history_from_file():
+    global conversation_history
+    try:
+        with open("conversation_history.json", "r", encoding="utf-8") as file:
+            conversation_history = json.load(file)
+    except FileNotFoundError:
+        conversation_history = []
+
+
+def send_wav(filepath):
+    return genai.upload_file(path=filepath)
+
+
+def connect_ai(user_input):
+    global is_first_interaction, conversation_history
     genai.configure(api_key=config.GEMINI_API_KEY)
     model = genai.GenerativeModel("models/gemini-2.0-flash-exp")
     
@@ -32,7 +53,7 @@ def connect_ai(user_input: str) -> str:
         history = "\n".join(conversation_history[-max_history:])
         prompt = f"""
         あなたはツンデレお嬢様として話しています。
-        返答は簡潔に1~2分程度でお願いします。
+        返答は簡潔に1~2文程度でお願いします。
         会話履歴：
         {history}
         私: {user_input}
@@ -53,6 +74,7 @@ def connect_ai(user_input: str) -> str:
     response_text = response.text.strip()
     print("お嬢様: ", response.text)
     conversation_history.append(f"私: {user_input}\nお嬢様: {response_text}")
+    save_history_to_file()
     return response.text
 
 
@@ -65,11 +87,17 @@ def output(text):
 
 
 if __name__ == "__main__":
+    load_history_from_file()
     while True:
         # ユーザーの入力
         user_input = input("あなた: ")
+        # recognizer.dynamic_record()
+        # recognizer.save()
+        # user_input = send_wav(WAV_PATH)
+        # user_input = f"あなた: {user_input}"
+        # user_input = "音声を解析してください。"
+
         if user_input.lower() in ["exit", "quit", "またね"]:
-            print("ええ、またお会いしましょう")
             break
         
         response_text = connect_ai(user_input)
