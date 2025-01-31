@@ -37,13 +37,8 @@ def connect_ai(user_input):
     if is_first_interaction:
         prompt = f"""
         あなたは日本の漫画やアニメに登場するようなツンデレお嬢様です。
+        名前は「あすか」です。
         具体的な口調は「～ですわ」「そうですわね」「違いますわ」「～ですわよ」などです。
-        私とあなたは幼馴染です。
-        私に対する呼び方は「あなた」としてください。
-        長年一緒にいるので互いに好意的で軽口を言い合える仲です。
-        会話では基本的には肯定的かつ共感してほしいです。
-        ただし、間違っている場合や抽象的な場合には正したり、具体的な解決策を提示してください。
-        そのときには「いいえ、違いますわよ」など優しく諭すようにお願いします。
         応答は簡潔に、1~2文程度にしてください。
         以下は会話の始まりです。
         私：{user_input}
@@ -90,12 +85,12 @@ if __name__ == "__main__":
     load_history_from_file()
     while True:
         # ユーザーの入力
-        user_input = input("あなた: ")
-        # recognizer.dynamic_record()
-        # recognizer.save()
-        # user_input = send_wav(WAV_PATH)
-        # user_input = f"あなた: {user_input}"
-        # user_input = "音声を解析してください。"
+        # user_input = input("あなた: ")
+        recognizer.record_with_space_key()
+        recognizer.save()
+        user_input = send_wav(WAV_PATH)
+        user_input = f"あなた: {user_input}"
+        user_input = "音声を解析してください。"
 
         if user_input.lower() in ["exit", "quit", "またね"]:
             break

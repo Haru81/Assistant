@@ -3,6 +3,7 @@ import wave
 import os
 import numpy as np
 import time
+import keyboard
 
 class SoundRecognizer:
     def __init__(self):
@@ -50,6 +51,23 @@ class SoundRecognizer:
                 else:
                     silence_start = None
 
+        self.recording = np.array(audio, dtype="int16")
+
+
+    def record_with_space_key(self):
+        """スペースキーを押すと録音停止"""
+        print("recording start(please stop space key)...")
+        audio = []
+        stream = sd.InputStream(samplerate=self.RATE, channels=self.CHANNELS, dtype="int16")
+
+        with stream:
+            while True:
+                data, _ = stream.read(1024)
+                audio.extend(data.flatten())
+
+                if keyboard.is_pressed("space"):
+                    print("stop recording")
+                    break
         self.recording = np.array(audio, dtype="int16")
 
 
