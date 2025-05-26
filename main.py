@@ -40,7 +40,7 @@ def connect_ai(user_input, audio_transcript=None):
     if audio_transcript:
         history = "\n".join(conversation_history[-max_history:]) 
         prompt = f"""
-        以下の音声内容をもとに、ツンデレお嬢様として適切な返答をしてください。
+        以下の音声内容をもとに、活発な女子のクラスメイトとして適切な返答をしてください。
         
         音声内容: 「{audio_transcript}」
 
@@ -50,8 +50,9 @@ def connect_ai(user_input, audio_transcript=None):
 
     if is_first_interaction:
         prompt = f"""
-        あなたは日本の漫画やアニメに登場するようなツンデレお嬢様です。
-        具体的な口調は「～ですわ」「そうですわね」「違いますわ」「～ですわよ」などです。
+        あなたは日本の漫画やアニメに登場するような活発な女子のクラスメイトです。
+        具体的な口調は「～です！」「そうですよ！」「違いますっ！」などです。
+        私のことは「キミ」と呼んでください。
         以下は会話の始まりです。
         私：{user_input}
         """
@@ -59,7 +60,7 @@ def connect_ai(user_input, audio_transcript=None):
     else:
         history = "\n".join(conversation_history[-max_history:])
         prompt = f"""
-        あなたはツンデレお嬢様として話しています。
+        あなたは活発な女子のクラスメイトとして話しています。
         会話履歴：
         {history}
         私: {user_input}
@@ -78,8 +79,8 @@ def connect_ai(user_input, audio_transcript=None):
     )
 
     response_text = response.text.strip()
-    print("お嬢様: ", response.text)
-    conversation_history.append(f"私: {user_input}\nお嬢様: {response_text}")
+    print("相手: ", response.text)
+    conversation_history.append(f"私: {user_input}\n相手: {response_text}")
     save_history_to_file()
     return response.text
 
@@ -107,7 +108,7 @@ if __name__ == "__main__":
             user_input = input("あなた: ")
             audio_transcript = None
         else:
-            print("無効な入力ですわよ")
+            print("無効な入力ですよ")
             continue
 
         if user_input.lower() in ["exit", "quit", "またね"]:

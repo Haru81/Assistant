@@ -15,14 +15,14 @@ class Sbv2Adapter:
             "text": text,
             "speaker_id": 0,
             "model_name": "Anneli",
-            "length": 0.9, # 音声の話速（1.0 = 標準、2.0 = 2倍遅く、0.5 = 2倍速く）
+            "length": 1.2, # 音声の話速（1.0 = 標準、2.0 = 2倍遅く、0.5 = 2倍速く）
             "sdp_ratio": 0.2,
             "noise": 0.6,
             "noisew": 0.8,
             "auto_split": True,
             "split_interval": 1,
             "language": "JP",
-            "style": "Neutral",
+            "style": "テンション高め",
             "style_weight": 5,
         }
         return params
